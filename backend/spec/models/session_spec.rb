@@ -21,8 +21,5 @@ RSpec.describe Session, type: :model do
         is_expected.to validate_presence_of attribute
       end
     end
-    
   end
-
-
 end
