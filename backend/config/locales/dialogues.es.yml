@@ -1,0 +1,5 @@
+es:
+  salutation: "Hola, ¿en qué puedo ayudarle?"
+  available_languages: "Puedo entenderle en alemán, inglés o español."
+  response: '¡Mis piezas están siendo ensambladas! ¡Estaré aquí para ayudar pronto!'
+  # You can Add your own dialogues here 
