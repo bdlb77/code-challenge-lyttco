@@ -23,14 +23,11 @@ class Api::V1::MessagesController < ApplicationController
   private
 
   def set_language
-    @wl = WhatLanguage.new(:english, :german, :spanish)
+    @what_language = WhatLanguage.new(:english, :german, :spanish)
   end
 
   def render_error
-    render json:  { errors: @messages.errors.full_messages },
+    render json: { errors: @messages.errors.full_messages },
                   status: :unprocessable_entity # 422
-  end
-  def message_params
-    params.require(:message).permit(:text)
   end
 end

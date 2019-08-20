@@ -6,6 +6,9 @@ Rails.application.routes.draw do
         member do
           get 'replies'
         end
+        collection do 
+          get 'session'
+        end
         resources :messages, param: :identifier, only: %i[create show]
       end
     end
