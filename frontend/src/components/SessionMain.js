@@ -7,8 +7,14 @@ import { API_ROOT } from '../config';
 const SessionMain = props => {
 	const [messages, setMessages] = useState([]);
 	useEffect(() => {
+		const sessionId = localStorage.sessionId;
+		if (sessionId) {
+			fetchReplies();
+		}
+	}, []);
+	const fetchReplies = () => {
 		axios
-			.get(`${API_ROOT}/sessions/1/replies`, {
+			.get(`${API_ROOT}/sessions/${localStorage.sessionId}/replies`, {
 				credentials: 'include',
 			})
 			.then(res => {
@@ -17,11 +23,11 @@ const SessionMain = props => {
 					setMessages([...res.data]);
 				}
 			});
-	}, []);
+	};
 	return (
 		<div>
 			<MessageList messages={messages} />
-			<MessageForm messages={messages} />
+			<MessageForm fetchReplies={fetchReplies} />
 		</div>
 	);
 };

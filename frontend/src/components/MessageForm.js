@@ -6,21 +6,25 @@ const MessageForm = props => {
 
 	const handleSubmit = event => {
 		event.preventDefault();
+		const sessionId = localStorage.sessionId;
+
 		axios
-			.post(`${API_ROOT}/sessions/1/messages`, {
+			.post(`${API_ROOT}/sessions/${sessionId}/messages`, {
+				credentials: 'include',
 				headers: {
 					HEADERS,
 				},
 				params: {
-					session_id: 1,
+					session_id: sessionId,
 				},
-				message: { text },
+				text,
 			})
 			.then(res => {
 				console.log(res);
 				setText('');
+				props.fetchReplies();
 			})
-			.catch(error => alert(error));
+			.catch(({ response }) => alert(response.data.errors));
 	};
 	return (
 		<form onSubmit={handleSubmit}>
