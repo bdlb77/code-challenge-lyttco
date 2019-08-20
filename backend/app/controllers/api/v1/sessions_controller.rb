@@ -5,8 +5,14 @@ class Api::V1::SessionsController < ApplicationController
     @messages = @session.messages
 
     bot_reply(@messages) unless @messages.blank?
-    @sorted_messages = @formatted_messages.sort{ |a,b| b.created_at <=> a.created_at }
+    @sorted_messages = @formatted_messages&.sort { |a, b| b.created_at <=> a.created_at } || []
   end
+
+  # def session
+  #   id = "#{Time.now.to_i}#{rand(999)}".to_i
+  #   cookies.signed[:jwt] = { value: id, httponly: true}
+  #   render json: { text: 'Cookie created' }
+  # end
 
   private
 
