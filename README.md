@@ -23,7 +23,7 @@ _An example of conversational interface_
 
 ## 2. Receive a user message
 
-A user will join a Chat Session and can send any message into that session. User messages will always go through this process and messages should have an unique, randomly generated ID. 
+A user will join a Chat Session and can send any message into that session. User messages will always go through this process and messages should have an unique, randomly generated ID.
 
 The session is used to keep track of how many messages were sent between a user and the bot and if a refresh occurs, still display past messages _from that session_.
 
@@ -69,7 +69,7 @@ _b) Response Status should be __422__ for error_
 
 
 
-## 3. Fetch a message 
+## 3. Fetch a message
 
 This endpoint returns the information about a message sent into the session. It can be used to retrieve information about a previous message.
 
@@ -140,7 +140,7 @@ GET "/sessions/{session-id}/replies"
        "shortname": "de.after_salutation",
        "reply_to": "{second-message-identifier}",
        "sent_at": "{timestamp}"
-     } 
+     }
   ]
 }
 ```
@@ -151,7 +151,7 @@ _**Hint:**_ You can find language detection libraries for almost any programming
 
 We would love to see an implementation that contains one or more of the items below, but they are optional:
 
--   Project uses `Dockerfile` and `docker-compose.yml`  
+-   Project uses `Dockerfile` and `docker-compose.yml`
 -   Chat between user and bot uses `WebSockets`
 -   Front-end can be used to send messages
 -   Front-end test framework was used
@@ -159,7 +159,7 @@ We would love to see an implementation that contains one or more of the items be
 
 ## 6. What we are looking for
 
-For this challenge, we are looking at how you document, test and develop features given the guidelines provided using clean code. We want to see if you are familiar with the concepts of APIs, REST and HTTP. 
+For this challenge, we are looking at how you document, test and develop features given the guidelines provided using clean code. We want to see if you are familiar with the concepts of APIs, REST and HTTP.
 
 
 ## 7. How to deliver this challenge
@@ -185,8 +185,133 @@ Is the API properly validated? Does it validate the data sent to the server?
 
 **d. Technology**
 
-Does the technology options make sense for this project? 
+Does the technology options make sense for this project?
 
 **e. Documentation**
 
 Is the project properly documented with instructions and justifications of the technological choices?
+
+
+
+## Summary
+
+This project was built using React in the frontend and Rails in the backend. I decided to decouple the two and so both the frontend and backend are two separate apps.
+
+### Challenges
+
+#### User Session
+
+I found the greatest challenge was deciding how to divide the session between two different users on the app. Since authentication wasn't mentioned I decided to try and tackle this without having a user. After great deliberation, I chose to go the route of initializing a Session by clicking a button which instantiates a `Session.new` and store the session in local storage. I chose this since I'm not very versed in JWT tokens and sessions between Rails ans React, and while running out of time I decided to go the route of localStorage.
+
+#### Bot Replies
+
+It took me a while to wrap my head around how to design the replies. I think I overcomplicated this section quite a bit.
+
+
+
+### Technology
+
+As mentioned before, this was done in a decoupled Rails and React project. I am familiar with doing it with `rails new --webpack=react` as a monolithic project, and so I wanted to also learn and grow comfortable with doing it in a decoupled manner. I believe the technologies work well together as it allows for a more dynamic frontend with a secure backend API (although I struggled with this and sessions). managing state I found quite useful this time around, so I'm happy I built in React. I decided to write everything in Hooks as it is a good app to practice it wit, so that was quite fun to dive into hooks and learn their lifecycles :)
+
+
+## 1.Getting Started
+
+  Since this is a decoupled app, you will need to run 2 servers. One for Rails and one for React.
+
+### Local
+
+  **backend**
+
+  1. To run the Rails server, you can jump into the
+  `/backend` directory:
+
+   ```bash
+      cd code-challenge-lyttco/backend/
+      rails server
+    ```
+
+  2. Bundle install to retrieve gems
+
+   ```bash
+    bundle install
+  ```
+
+  3. start the rails server in the console:
+
+  ```bash
+    rails server
+  ```
+
+  2. you can view some of the routes by copy/pasting into the browser
+    Example: `localhost:3000/api/v1/sessions/:id/replies`
+
+
+  **frontend**
+
+  1. To run the React frontend, jump into the `/frontend` directory
+    ```bash
+    cd code-challenge-lyttco/frontend/
+    ```
+
+
+  2. yarn install to download all yarn dependencies
+
+  ```bash
+    yarn install
+  ```
+
+  3. start the frontend server
+
+  ```bash
+    yarn start
+  ```
+
+  4.  The port made available for the frontend is `7000`. To interact with the API and project, open up in the browser:
+
+  `localhost:7000`
+
+
+  5. You should See a `Join Chat` button.
+
+## 2. How it Works
+
+
+1. Click on the `Join Chat` button
+
+2. Type in a message to send to the API (chatbot) in the Input given
+
+ 2a. If the message is not in **German, English, or Spanish**, the API will respond with an alert notifying you that the bot doesn't handle other languages.
+
+ 2b. If the message is correct, the bot should reply with a salutation and a confirmation of which languages it can speak.
+
+3. With each Reply from the bot, a `unique identifier` number will be present just below the reply. This number is used to find the corresponding metadata of the user's message sent to the bot.
+
+  3a. If The number is clicked, the message details should append into the panel on the right hand side.
+
+  3b. The metadata for the message should have present:
+
+  `Identifier Number, Detected language, and TimeStamp`
+
+4. If you exit out of the browser and come back, the messages should still appear, and your session should be persisted.
+
+
+## 3. Testing
+
+Rspec was the testing framework used for Rails. Tests are located under `app/spec/`
+
+
+1. To Run tests go to the `/backend` directory.
+
+```bash
+  cd code-challenge-lyttco/backend/
+```
+
+2. Run this command in the console:
+
+```bash
+  rspec spec
+```
+
+
+
+
