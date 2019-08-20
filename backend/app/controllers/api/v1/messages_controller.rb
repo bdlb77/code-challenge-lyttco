@@ -1,5 +1,5 @@
 class Api::V1::MessagesController < ApplicationController
-
+  before_action :set_language, only: [:create]
   def show
     @message = Message.find params[:identifier]
   end
@@ -8,6 +8,9 @@ class Api::V1::MessagesController < ApplicationController
     @session = Session.find params[:session_id]
     @message = Message.new(message_params)
     @message.session = @session
+    @locale = @wl.language_iso(@message.text)
+
+    @message.detected_language = @locale
 
     if @message.save     
       render :show, status: :created
@@ -21,6 +24,9 @@ class Api::V1::MessagesController < ApplicationController
 
   private
 
+  def set_language
+    @wl = WhatLanguage.new(:english, :german, :spanish)
+  end
 
   def render_error
     render json:  { errors: @messages.errors.full_messages },

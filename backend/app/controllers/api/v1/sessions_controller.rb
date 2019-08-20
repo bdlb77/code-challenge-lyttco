@@ -11,11 +11,12 @@ class Api::V1::SessionsController < ApplicationController
   def set_language
     @wl = WhatLanguage.new(:english, :german, :spanish)
   end
+
   def bot_reply(messages)
     @formatted_messages = []
     first_message = messages.first
     # set language from text
-    @locale = @wl.language_iso(first_message.text)
+    @locale = first_message.detected_language
     salutation = Reply.find_by(short_name: "#{locale}.salutation")
     available = Reply.find_by(short_name: "#{locale}.available")
     if salutation.nil?
