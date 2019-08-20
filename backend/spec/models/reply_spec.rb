@@ -17,8 +17,8 @@ RSpec.describe Reply, type: :model do
     before do
       @session = Session.create(title: 'Session Example')
       @session2 = Session.create(title: 'Other Session')
-      @message = Message.create(text: 'Hello!', session: @session)
-      @message2 = Message.create(text: 'Hello! Other session', session: @session2)
+      @message = Message.create(session: @session)
+      @message2 = Message.create(session: @session2)
       @reply = Reply.create(session: @session, message: "Message", short_name: 'de.salutation')
     end
 
