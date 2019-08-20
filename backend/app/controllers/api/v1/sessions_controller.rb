@@ -30,7 +30,7 @@ class Api::V1::SessionsController < ApplicationController
         @formatted_messages <<
           Reply.create!(
             message: I18n.t('available_languages', locale: @locale),
-            short_name: "#{locale}.available",
+            short_name: "#{@locale}.available",
             session: @session
           )
       end
@@ -49,7 +49,7 @@ class Api::V1::SessionsController < ApplicationController
         @formatted_messages <<
         Reply.create!(
             message: I18n.t('response', locale: @locale), 
-            short_name: "#{locale}.response",
+            short_name: "#{@locale}.response",
             reply_to: mes.identifier,
             session: @session
         )
