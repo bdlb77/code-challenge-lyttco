@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { API_ROOT } from './config';
 import './App.css';
 import Header from './components/Header';
 import SessionRoom from './components/SessionRoom';
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
-import { API_ROOT } from './config';
+import JoinChat from './components/JoinChat';
 
 const theme = {
 	gunmetal: '#292F36',
 	burgundy: '#732427',
 	grey: '#747572',
 	snow: '#E0E0E0',
-	lgBreak: '1300px',
 	maxWidth: '1000px',
 	bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
 	lgBreak: '1300px',
@@ -50,18 +50,41 @@ const Inner = styled.div`
 	min-height: 80vh;
 `;
 const App = () => {
+	const [isJoinedChat, setIsJoinedChat] = useState(null);
+
 	useEffect(() => {
-		axios.get(`${API_ROOT}/sessions/session`).then(res => {
-			console.log(res);
-		});
+		localStorage.chatJoined ? setIsJoinedChat(localStorage.chatJoined) : setIsJoinedChat(false);
 	}, []);
 
+	// if isJoinedChat changed.. reset state
+	useEffect(() => {
+		localStorage.setItem('chatJoined', isJoinedChat);
+	}, [isJoinedChat]);
+
+	const toggleChat = () => {
+		const sessionId = localStorage.sessionId;
+		if (!sessionId) {
+			fetchSession();
+		}
+		setIsJoinedChat(!isJoinedChat);
+	};
+
+	const fetchSession = async () => {
+		try {
+			const res = await axios.post(`${API_ROOT}/sessions`);
+			console.log(res);
+			localStorage.setItem('sessionId', res.data.session.id);
+		} catch (error) {
+			alert(error);
+		}
+	};
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledApp>
 				<Header />
 				<Inner>
-					<SessionRoom />
+					{isJoinedChat && <SessionRoom />}
+					{!isJoinedChat && <JoinChat toggleChat={toggleChat} />}
 				</Inner>
 			</StyledApp>
 		</ThemeProvider>
