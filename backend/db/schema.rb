@@ -10,18 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_18_102418) do
+ActiveRecord::Schema.define(version: 2019_08_20_172100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "messages", id: false, force: :cascade do |t|
-    t.integer "identifier"
-    t.string "text"
+    t.bigint "identifier"
     t.bigint "session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "detected_language"
     t.index ["session_id"], name: "index_messages_on_session_id"
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.string "message"
+    t.string "short_name"
+    t.bigint "reply_to"
+    t.bigint "session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_replies_on_session_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -31,4 +41,5 @@ ActiveRecord::Schema.define(version: 2019_08_18_102418) do
   end
 
   add_foreign_key "messages", "sessions"
+  add_foreign_key "replies", "sessions"
 end
