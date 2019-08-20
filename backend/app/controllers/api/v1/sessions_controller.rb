@@ -1,9 +1,12 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :set_language, only: [:replies]
   def replies
+    session[:user] = rand(123...422)
     @session = Session.find params[:id]
     @messages = @session.messages
-    bot_reply(@messages) unless @messages.blank? 
+
+    bot_reply(@messages) unless @messages.blank?
+    @sorted_messages = @formatted_messages.sort{ |a,b| b.created_at <=> a.created_at }
   end
 
   private
