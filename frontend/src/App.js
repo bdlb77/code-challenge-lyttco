@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import Header from './components/Header';
 import SessionRoom from './components/SessionRoom';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { API_ROOT } from './config';
 
 const theme = {
 	gunmetal: '#292F36',
@@ -48,6 +50,12 @@ const Inner = styled.div`
 	min-height: 80vh;
 `;
 const App = () => {
+	useEffect(() => {
+		axios.get(`${API_ROOT}/sessions/session`).then(res => {
+			console.log(res);
+		});
+	}, []);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledApp>
