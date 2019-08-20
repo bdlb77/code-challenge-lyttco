@@ -7,8 +7,8 @@ const MessageDetails = () => {
 	const [messageDetails, setMessageDetails] = useState({});
 	useEffect(() => {
 		axios.get(`${API_ROOT}/sessions/1/messages/${currentMessage || localStorage.getItem('id')}`).then(res => {
-			const { text, identifier, detected_language, time_stamp } = { ...res.data.message };
-			setMessageDetails({ text, identifier, time_stamp, detected_language });
+			const { identifier, detected_language, time_stamp } = { ...res.data.message };
+			setMessageDetails({ identifier, time_stamp, detected_language });
 			localStorage.setItem('id', currentMessage);
 		});
 	}, [currentMessage]);
