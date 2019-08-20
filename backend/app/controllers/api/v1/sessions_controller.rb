@@ -1,23 +1,32 @@
 class Api::V1::SessionsController < ApplicationController
-  before_action :set_language, only: [:replies]
+  before_action :set_session, only: [:replies, :show]
   def replies
-    @session = Session.find params[:id]
     @messages = @session.messages
 
     bot_reply(@messages) unless @messages.blank?
     @sorted_messages = @formatted_messages&.sort { |a, b| b.created_at <=> a.created_at } || []
   end
 
+  def show
+  end
+
+  def create
+    @session = Session.new(title: "Session Number: #{Session.count + 1}")
+    if @session.save
+      render :show
+    else
+      render json: { message: 'Session could not be created' },
+             status: :unprocessable_entity
+    end
+  end
   # def session
-  #   id = "#{Time.now.to_i}#{rand(999)}".to_i
-  #   cookies.signed[:jwt] = { value: id, httponly: true}
   #   render json: { text: 'Cookie created' }
   # end
 
   private
 
-  def set_language
-    @wl = WhatLanguage.new(:english, :german, :spanish)
+  def set_session
+    @session = Session.find(params[:id])
   end
 
   def bot_reply(messages)
@@ -25,12 +34,12 @@ class Api::V1::SessionsController < ApplicationController
     first_message = messages.first
     # set language from text
     @locale = first_message.detected_language
-    salutation = Reply.find_by(short_name: "#{locale}.salutation")
-    available = Reply.find_by(short_name: "#{locale}.available")
+    salutation = Reply.find_by(short_name: "#{@locale}.salutation")
+    available = Reply.find_by(short_name: "#{@locale}.available")
     if salutation.nil?
       salutation = Reply.create!(
         message: I18n.t('salutation', locale: @locale),
-        short_name: "#{locale}.salutation",
+        short_name: "#{@locale}.salutation",
         reply_to: first_message.identifier,
         session: @session
       )
@@ -57,10 +66,10 @@ class Api::V1::SessionsController < ApplicationController
       if reply.nil?
         @formatted_messages <<
         Reply.create!(
-            message: I18n.t('response', locale: @locale), 
-            short_name: "#{@locale}.response",
-            reply_to: mes.identifier,
-            session: @session
+          message: I18n.t('response', locale: @locale), 
+          short_name: "#{@locale}.response",
+          reply_to: mes.identifier,
+          session: @session
         )
       else
         @formatted_messages << reply

@@ -1,17 +1,8 @@
 class ApplicationController < ActionController::API
   rescue_from StandardError,                with: :internal_server_error
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
-  include ::ActionController::Cookies
-  before_action :validate_session
-  
-  private
 
-  def validate_session
-    unless session[:current_user]
-      session[:current_user] = "#{Time.now.to_i}#{rand(999)}".to_i
-    end
-    @session = session[:current_user]
-  end
+  private
 
   def not_found(exception)
     render json: { error: exception.message }, status: :not_found

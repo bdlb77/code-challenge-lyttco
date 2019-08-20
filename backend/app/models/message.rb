@@ -4,7 +4,6 @@ class Message < ApplicationRecord
   
   before_validation :set_identifier
   
-  validates :text, presence: true
   validates :identifier, presence: true
   validates :identifier, uniqueness: true
   def set_identifier

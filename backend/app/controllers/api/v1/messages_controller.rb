@@ -5,13 +5,13 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def create
-    @session = Session.find(params[:session_id])
     @message = Message.new
+    @message_text = params[:text]
+    @session = Session.find(params[:session_id])
     @message.session = @session
-    @locale = @what_language.language_iso(@message.text)
+    @locale = @what_language.language_iso(@message_text)
     @message.detected_language = @locale
-
-    if @message.save
+    if %i[en de es].include?(@locale) && @message.save
       render :show, status: :created
     else
       render_error
@@ -23,11 +23,12 @@ class Api::V1::MessagesController < ApplicationController
   private
 
   def set_language
-    @what_language = WhatLanguage.new(:english, :german, :spanish)
+    @what_language = WhatLanguage.new(:english, :german, :spanish, :french, :romanian, :hebrew, :russian, :italian, :portugeuse)
   end
 
   def render_error
-    render json: { errors: @messages.errors.full_messages },
+    render json: { errors: 'Unfortunately We don\'t have support for your language yet.' },
                   status: :unprocessable_entity # 422
   end
+
 end
