@@ -1,7 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :set_language, only: [:replies]
   def replies
-    session[:user] = rand(123...422)
     @session = Session.find params[:id]
     @messages = @session.messages
 
