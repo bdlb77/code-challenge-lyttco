@@ -1,34 +1,4 @@
 
-## 7. How to deliver this challenge
-
-Please deliver the solution using a public repository URL on GitHub. Your repository should contain full instructions and documentation for us to run and test the project. You can clone and develop on top of this repository as well.
-
-Hosting the solution on a cloud provider (https://heroku.com, AWS, https://now.sh) is a great plus!
-
-
-## 8. How we are evaluating
-
-**a. Code Quality**
-
-Is the code clean and understandable? Is the codebase organized in any existing pattern?
-
-**b. Testing**
-
-Is the project properly tested and covering edge cases? If tests are missing, what's the reasoning behind it?
-
-**c. Validation**
-
-Is the API properly validated? Does it validate the data sent to the server?
-
-**d. Technology**
-
-Does the technology options make sense for this project?
-
-**e. Documentation**
-
-Is the project properly documented with instructions and justifications of the technological choices?
-
-
 
 ## Summary
 
@@ -66,7 +36,6 @@ For the Language detection I used [WhatLanguage](https://github.com/peterc/whatl
 
 ```bash
   cd code-challenge-lyttco/backend/
-  rails server
 ```
 
 2. Bundle install to retrieve gems
@@ -108,7 +77,7 @@ cd code-challenge-lyttco/frontend/
 
 4.  The port made available for the frontend is `7000`. To interact with the API and project, open up in the browser:
 
-`localhost:7000`
+    *`localhost:7000`
 
 
 5. You should See a `Join Chat` button.
@@ -119,17 +88,15 @@ cd code-challenge-lyttco/frontend/
 1. Click on the `Join Chat` button
 
 2. Type in a message (More than 1 word) to send to the API (chatbot) in the Input given
-
-  * If the message is not in **German, English, or Spanish**, the API will respond with an alert notifying you that the bot doesn't handle other languages.
-
-  * If the message is correct, the bot should reply with a salutation and a confirmation of which languages it can speak.
+    * If the message is not in **German, English, or Spanish**, the API will respond with an alert notifying you that the bot doesn't handle other languages.
+    * If the message is correct, the bot should reply with a salutation and a confirmation of which languages it can speak.
 
 3. With each Reply from the bot, a `unique identifier` number will be present just below the reply. This number is used to find the corresponding metadata of the user's message sent to the bot.
-  * Click the number, and the message details should append into the panel on the right hand side.
+    * Click the number, and the message details should append into the panel on the right hand side.
 
-  * The metadata for the message should have present:
+    * The metadata for the message should have present:
 
-`Identifier Number, Detected language, and TimeStamp`
+        `Identifier Number, Detected language, and TimeStamp`
 
 4. If you exit out of the browser and come back, the messages should still appear, and your session should be persisted.
 
