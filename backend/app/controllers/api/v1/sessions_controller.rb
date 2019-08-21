@@ -14,7 +14,7 @@ class Api::V1::SessionsController < ApplicationController
   def create
     @session = Session.new(title: "Session Number: #{Session.count + 1}")
     if @session.save
-      render :show
+      render :show, status: 200
     else
       render json: { message: 'Session could not be created' },
              status: :unprocessable_entity
