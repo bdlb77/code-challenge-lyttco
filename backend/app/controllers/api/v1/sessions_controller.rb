@@ -20,9 +20,7 @@ class Api::V1::SessionsController < ApplicationController
              status: :unprocessable_entity
     end
   end
-  # def session
-  #   render json: { text: 'Cookie created' }
-  # end
+
 
   private
 
@@ -57,15 +55,15 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def coming_soon_messages(messages)
-    messages.each do |mes|
+    messages.each do |message|
       # skip creating new message if message already has a reply
-      reply = Reply.find_by(reply_to: mes.identifier)
+      reply = Reply.find_by(reply_to: message.identifier)
       if reply.nil?
         @formatted_messages <<
           Reply.create(
             message: I18n.t('response', locale: @locale), 
             short_name: "#{@locale}.response",
-            reply_to: mes.identifier,
+            reply_to: message.identifier,
             session: @session
           )
       else
