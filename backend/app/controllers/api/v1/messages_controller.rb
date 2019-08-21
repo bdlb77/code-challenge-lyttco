@@ -1,5 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
   before_action :set_language, only: [:create]
+
   def show
     @message = Message.find(params[:identifier])
   end
@@ -18,8 +19,6 @@ class Api::V1::MessagesController < ApplicationController
     end
   end
 
-
-
   private
 
   def set_language
@@ -30,5 +29,4 @@ class Api::V1::MessagesController < ApplicationController
     render json: { errors: 'Unfortunately We don\'t have support for your language yet.' },
                   status: :unprocessable_entity # 422
   end
-
 end

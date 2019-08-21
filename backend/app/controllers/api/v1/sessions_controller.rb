@@ -1,5 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :set_session, only: [:replies, :show]
+  
   def replies
     @messages = @session.messages
 
@@ -37,21 +38,17 @@ class Api::V1::SessionsController < ApplicationController
     salutation = Reply.find_by(short_name: "#{@locale}.salutation")
     available = Reply.find_by(short_name: "#{@locale}.available")
     if salutation.nil?
-      salutation = Reply.create!(
+      @formatted_messages <<  Reply.create!(
         message: I18n.t('salutation', locale: @locale),
         short_name: "#{@locale}.salutation",
         reply_to: first_message.identifier,
         session: @session
       )
-      @formatted_messages << salutation
-      if available.nil?
-        @formatted_messages <<
-          Reply.create!(
-            message: I18n.t('available_languages', locale: @locale),
-            short_name: "#{@locale}.available",
-            session: @session
-          )
-      end
+      @formatted_messages << Reply.create!(
+        message: I18n.t('available_languages', locale: @locale),
+        short_name: "#{@locale}.available",
+        session: @session
+      )
     else
       @formatted_messages.push(salutation, available)
     end
@@ -65,12 +62,12 @@ class Api::V1::SessionsController < ApplicationController
       reply = Reply.find_by(reply_to: mes.identifier)
       if reply.nil?
         @formatted_messages <<
-        Reply.create!(
-          message: I18n.t('response', locale: @locale), 
-          short_name: "#{@locale}.response",
-          reply_to: mes.identifier,
-          session: @session
-        )
+          Reply.create(
+            message: I18n.t('response', locale: @locale), 
+            short_name: "#{@locale}.response",
+            reply_to: mes.identifier,
+            session: @session
+          )
       else
         @formatted_messages << reply
       end
