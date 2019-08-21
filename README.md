@@ -87,7 +87,7 @@ cd code-challenge-lyttco/frontend/
 ### Production
 
 **frontend**
- url: [frontend](https://app.netlify.com/sites/elegant-pare-4892fa/deploys)
+ url: [frontend](https://elegant-pare-4892fa.netlify.com/)
 
 **backend**
 
