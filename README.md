@@ -77,7 +77,7 @@ cd code-challenge-lyttco/frontend/
 
 4.  The port made available for the frontend is `7000`. To interact with the API and project, open up in the browser:
 
-`localhost:7000`
+    *`localhost:7000`
 
 
 5. You should See a `Join Chat` button.
