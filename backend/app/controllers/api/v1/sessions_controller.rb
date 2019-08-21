@@ -1,6 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
   before_action :set_session, only: [:replies, :show]
-  
+
   def replies
     @messages = @session.messages
 
@@ -33,19 +33,19 @@ class Api::V1::SessionsController < ApplicationController
     first_message = messages.first
     # set language from text
     @locale = first_message.detected_language
-    salutation = Reply.find_by(short_name: "#{@locale}.salutation")
-    available = Reply.find_by(short_name: "#{@locale}.available")
+    salutation = Reply.find_by(short_name: "#{@locale}.salutation", session: @session)
+    available = Reply.find_by(short_name: "#{@locale}.available", session: @session)
     if salutation.nil?
       @formatted_messages <<  Reply.create!(
         message: I18n.t('salutation', locale: @locale),
         short_name: "#{@locale}.salutation",
         reply_to: first_message.identifier,
-        session: @session
+        session: first_message.session
       )
       @formatted_messages << Reply.create!(
         message: I18n.t('available_languages', locale: @locale),
         short_name: "#{@locale}.available",
-        session: @session
+        session: first_message.session
       )
     else
       @formatted_messages.push(salutation, available)
@@ -61,7 +61,7 @@ class Api::V1::SessionsController < ApplicationController
       if reply.nil?
         @formatted_messages <<
           Reply.create(
-            message: I18n.t('response', locale: @locale), 
+            message: I18n.t('response', locale: @locale),
             short_name: "#{@locale}.response",
             reply_to: message.identifier,
             session: @session
