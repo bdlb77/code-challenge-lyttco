@@ -3,6 +3,10 @@ class Api::V1::MessagesController < ApplicationController
 
   def show
     @message = Message.find(params[:identifier])
+    if @message.session_id != params[:session_id].to_i
+      render json: { message: 'That message does not exist.' }, status: 404
+      return
+    end
   end
 
   def create
