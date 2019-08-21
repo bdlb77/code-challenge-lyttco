@@ -120,15 +120,14 @@ cd code-challenge-lyttco/frontend/
 
 2. Type in a message (More than 1 word) to send to the API (chatbot) in the Input given
 
-  2a. If the message is not in **German, English, or Spanish**, the API will respond with an alert notifying you that the bot doesn't handle other languages.
+  * If the message is not in **German, English, or Spanish**, the API will respond with an alert notifying you that the bot doesn't handle other languages.
 
-  2b. If the message is correct, the bot should reply with a salutation and a confirmation of which languages it can speak.
+  * If the message is correct, the bot should reply with a salutation and a confirmation of which languages it can speak.
 
 3. With each Reply from the bot, a `unique identifier` number will be present just below the reply. This number is used to find the corresponding metadata of the user's message sent to the bot.
+  * Click the number, and the message details should append into the panel on the right hand side.
 
-  3a. Click the number, and the message details should append into the panel on the right hand side.
-
-  3b. The metadata for the message should have present:
+  * The metadata for the message should have present:
 
 `Identifier Number, Detected language, and TimeStamp`
 
