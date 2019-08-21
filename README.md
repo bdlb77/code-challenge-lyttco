@@ -77,10 +77,70 @@ cd code-challenge-lyttco/frontend/
 
 4.  The port made available for the frontend is `7000`. To interact with the API and project, open up in the browser:
 
-    *`localhost:7000`
+    * `localhost:7000`
 
 
 5. You should See a `Join Chat` button.
+
+
+
+### Production
+
+**frontend**
+ url: [frontend](https://app.netlify.com/sites/elegant-pare-4892fa/deploys)
+
+**backend**
+
+1. Bot Replies
+
+GET `api/v1/sessins/:id/replies`
+
+(https://lyttco-backend-chal.herokuapp.com/api/v1/sessions/2/replies)
+
+2. Fetch User Message
+
+GET `api/v1/sessions/:id/messages/:identifier`
+
+(https://lyttco-backend-chal.herokuapp.com/api/v1/sessions/2/messages/1566380636604)
+
+
+3. Send User Message
+
+POST `api/v1/sessions/:id/messages`
+
+**successful**
+
+```bash
+curl -i -X POST                                                              \
+     -H 'Content-Type: application/json'                                     \
+     -d '{ "text": "Hello World from your friend" }'                          \
+     https://lyttco-backend-chal.herokuapp.com/api/v1/sessions/2/messages/
+
+```
+
+  * **response**
+
+```bash
+ {"message":{"identifier":1566381501220,"detected_language":"en","time_stamp":"2019-08-21T09:58:21.142Z"}}
+```
+
+**failure**
+
+ * if User message's language is not supported:
+
+```bash
+ curl -i -X POST                                                             \
+     -H 'Content-Type: application/json'                                     \
+     -d '{ "text": "Je Suis étudiante" }'                                     \
+     https://lyttco-backend-chal.herokuapp.com/api/v1/sessions/2/messages/
+
+ ```
+  * **response**
+
+```bash
+  HTTP/1.1 422 Unprocessable Entity
+  {"errors":"Unfortunately We don't have support for your language yet."}
+```
 
 ## 2. How it Works
 
