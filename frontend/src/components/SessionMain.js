@@ -18,7 +18,6 @@ const SessionMain = props => {
 				credentials: 'include',
 			})
 			.then(res => {
-				console.log(res.data);
 				if (res.data) {
 					setMessages([...res.data]);
 				}

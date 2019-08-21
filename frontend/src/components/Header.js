@@ -1,11 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const HeaderStyles = styled.header``;
+const HeaderStyles = styled.header`
+	background-color: ${props => props.theme.gunmetal};
+`;
 const Logo = styled.h1`
+	margin: 0;
+	padding-top: 2rem;
 	font-size: 4rem;
-	margin-left: 2rem;
+	padding-left: 2rem;
 	position: relative;
 	z-index: 2;
 	transform: skew(-7deg);
@@ -21,7 +24,7 @@ const Header = props => {
 	return (
 		<HeaderStyles>
 			<Logo>
-				<a>Logo</a>
+				<a href="/">Logo</a>
 			</Logo>
 		</HeaderStyles>
 	);

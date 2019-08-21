@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SessionMain from './SessionMain';
 import MessageDetails from './MessageDetails';
@@ -6,11 +6,15 @@ import { MessageProvider } from '../state/MessageContext';
 
 const RoomStyles = styled.div`
 	display: grid;
-	grid-template-columns: minmax(300px, 1fr) 1fr;
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 	grid-column-gap: 20px;
 `;
 const SessionRoom = props => {
 	const [currentMessage, setCurrentMessage] = useState(null);
+
+	useEffect(() => {
+		setCurrentMessage(localStorage.getItem('id'));
+	}, []);
 
 	const toggleCurrentMessage = id => {
 		setCurrentMessage(id);
@@ -20,7 +24,7 @@ const SessionRoom = props => {
 		<MessageProvider value={{ currentMessage, toggleCurrentMessage }}>
 			<RoomStyles>
 				<SessionMain />
-				<MessageDetails />
+				<MessageDetails isJoinedChat={props.isJoinedChat} />
 			</RoomStyles>
 		</MessageProvider>
 	);

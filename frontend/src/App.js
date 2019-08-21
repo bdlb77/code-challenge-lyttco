@@ -50,10 +50,12 @@ const Inner = styled.div`
 	min-height: 80vh;
 `;
 const App = () => {
-	const [isJoinedChat, setIsJoinedChat] = useState(null);
+	const [isJoinedChat, setIsJoinedChat] = useState(false);
 
 	useEffect(() => {
-		localStorage.chatJoined ? setIsJoinedChat(localStorage.chatJoined) : setIsJoinedChat(false);
+		localStorage.chatJoined && localStorage.chatJoined === 'true'
+			? setIsJoinedChat(localStorage.chatJoined)
+			: setIsJoinedChat(false);
 	}, []);
 
 	// if isJoinedChat changed.. reset state
@@ -66,13 +68,12 @@ const App = () => {
 		if (!sessionId) {
 			fetchSession();
 		}
-		setIsJoinedChat(!isJoinedChat);
+		setIsJoinedChat(true);
 	};
 
 	const fetchSession = async () => {
 		try {
 			const res = await axios.post(`${API_ROOT}/sessions`);
-			console.log(res);
 			localStorage.setItem('sessionId', res.data.session.id);
 		} catch (error) {
 			alert(error);
@@ -83,8 +84,7 @@ const App = () => {
 			<StyledApp>
 				<Header />
 				<Inner>
-					{isJoinedChat && <SessionRoom />}
-					{!isJoinedChat && <JoinChat toggleChat={toggleChat} />}
+					{isJoinedChat ? <SessionRoom isJoinedChat={isJoinedChat} /> : <JoinChat toggleChat={toggleChat} />}
 				</Inner>
 			</StyledApp>
 		</ThemeProvider>

@@ -1,22 +1,28 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Message from './Message';
-import MessageContext from '../state/MessageContext';
+import styled from 'styled-components';
+
+const StyledList = styled.ul`
+	margin-top: 0;
+	height: 600px;
+	overflow-y: auto;
+	background-color: ${props => props.theme.burgundy};
+	color: ${props => props.theme.snow};
+	box-shadow: ${props => props.theme.bs};
+`;
 const MessageList = ({ messages }) => {
-	const { currentMessage } = useContext(MessageContext);
 	return (
-		<div>
-			<ul>
-				{messages.map(message => {
-					return (
-						<Message
-							key={message.reply_to || message.sent_at}
-							text={message.message}
-							messageId={message.reply_to}
-						/>
-					);
-				})}
-			</ul>
-		</div>
+		<StyledList>
+			{messages.map(message => {
+				return (
+					<Message
+						key={message.reply_to || message.sent_at}
+						text={message.message}
+						messageId={message.reply_to}
+					/>
+				);
+			})}
+		</StyledList>
 	);
 };
 
