@@ -36,7 +36,6 @@ For the Language detection I used [WhatLanguage](https://github.com/peterc/whatl
 
 ```bash
   cd code-challenge-lyttco/backend/
-  rails server
 ```
 
 2. Bundle install to retrieve gems
